@@ -96,7 +96,10 @@ torchrun --rdzv_endpoint 127.0.0.1:1234 --nproc_per_node 8 train.py --model 7B \
 --blr 7e-2 --weight_decay 0.02 --output_dir ./checkpoint/tvqa --dataset tvqa --accum_iter 4 --sub --vaq --qav
 ```
 
+We also provide fine-tuned checkpoints on each dataset at [here](https://drive.google.com/drive/folders/1XtMZMNW3CRmzvpEVYj29iaUgDFcPUroe?usp=drive_link).
+
 ## Acknowledgements
+
 This repo is built upon [LLaMA-Adapter](https://github.com/OpenGVLab/LLaMA-Adapter).
 
 ## Citations
