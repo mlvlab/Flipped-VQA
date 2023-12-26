@@ -19,7 +19,7 @@ git clone https://github.com/mlvlab/Flipped-VQA.git
 cd Flipped-VQA
 mkdir pretrained
 mkdir data
-conda create -n ovqa python=3.8
+conda create -n flipped-vqa python=3.8
 conda activate flipped-vqa
 sh setup.sh
 ```
