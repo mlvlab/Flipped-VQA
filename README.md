@@ -99,7 +99,7 @@ torchrun --rdzv_endpoint 127.0.0.1:1234 --nproc_per_node 8 train.py --model 7B \
 We also provide fine-tuned checkpoints on each dataset at [here](https://drive.google.com/drive/folders/1XtMZMNW3CRmzvpEVYj29iaUgDFcPUroe?usp=drive_link).
 
 ## Evaluation
-From the training command, simply replace ```train.py``` to ```eval.py``` and add ```--resume ./checkpoint/dataset/checkpoint_best.pth```.
+From the training command, simply replace ```train.py``` to ```eval.py``` and add ```--resume ./your/checkpoint.pth```.
 
 ## Acknowledgements
 
