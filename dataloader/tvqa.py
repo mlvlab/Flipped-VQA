@@ -6,7 +6,7 @@ import pysrt
 
 class TVQA(BaseDataset):
     def __init__(self, args=None, tokenizer=None, split='train'):
-	super().__init__(args, tokenizer, split)
+        super().__init__(args, tokenizer, split)
         json_path = f'./data/tvqa/tvqa_{split}.jsonl'
         feature_path = f'./data/tvqa/clipvitl14.pth'
 

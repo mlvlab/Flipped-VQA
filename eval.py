@@ -21,7 +21,7 @@ from dataloader import load_data
 
 
 def get_args_parser():
-    parser = argparse.ArgumentParser('Flipped-VQA training', add_help=False)
+    parser = argparse.ArgumentParser('Flipped-VQA evaluation', add_help=False)
     parser.add_argument('--batch_size', default=64, type=int, help='Batch size per GPU (effective batch size is batch_size * accum_iter * # gpus')
     parser.add_argument('--epochs', default=400, type=int)
     parser.add_argument('--accum_iter', default=1, type=int, help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
@@ -84,8 +84,7 @@ def main(args):
     cudnn.benchmark = True
 
     tokenizer = Tokenizer(model_path=f'{args.llama_model_path}./tokenizer.model')
-
-    data_loader_train = load_data(args, tokenizer, split='train')
+    
     data_loader_val = load_data(args, tokenizer, split='val')
 
     model = LLaMA_VQA(args)
@@ -118,31 +117,22 @@ def main(args):
 
     misc.load_model(args=args, model_without_ddp=model_without_ddp, optimizer=optimizer, loss_scaler=loss_scaler)
 
-    print(f"Start training for {args.epochs} epochs")
+    print(f"Start evaluation")
     start_time = time.time()
-    for epoch in range(args.start_epoch, args.epochs):
+    epoch = -1
+    if args.distributed:
+        data_loader_val.sampler.set_epoch(epoch)
 
-        if args.distributed:
-            data_loader_train.sampler.set_epoch(epoch)
-            data_loader_val.sampler.set_epoch(epoch)
+    val_stats = val_one_epoch(model_without_ddp, data_loader_val, optimizer, epoch, args=args)
+    log_stats = {**{f'val_{k}': v for k, v in val_stats.items()}}
 
-        train_stats = train_one_epoch(model, data_loader_train, optimizer, epoch, loss_scaler, args=args)
-        val_stats = val_one_epoch(model_without_ddp, data_loader_val, optimizer, epoch, args=args)
-
-        if args.output_dir and best_acc < val_stats['acc']:
-            best_acc = val_stats['acc']
-            model_name = 'checkpoint_best'
-            misc.save_model(args=args, model=model, model_without_ddp=model_without_ddp, optimizer=optimizer, loss_scaler=loss_scaler, epoch=epoch, name=model_name)
-
-        log_stats = {**{f'train_{k}': v for k, v in train_stats.items()}, 'epoch': epoch, **{f'val_{k}': v for k, v in val_stats.items()}}
-
-        if args.output_dir and misc.is_main_process():
-            with open(os.path.join(args.output_dir, "log.txt"), mode="a", encoding="utf-8") as f:
-                f.write(json.dumps(log_stats) + "\n")
+    if args.output_dir and misc.is_main_process():
+        with open(os.path.join(args.output_dir, "log.txt"), mode="a", encoding="utf-8") as f:
+            f.write(json.dumps(log_stats) + "\n")
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
-    print('Training time {}'.format(total_time_str))
+    print('Evaluation time {}'.format(total_time_str))
 
 
 if __name__ == '__main__':
