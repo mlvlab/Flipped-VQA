@@ -26,7 +26,7 @@ sh setup.sh
 
 ## Dataset & LLaMA Preparation
 
-You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQA) at [here](https://drive.google.com/drive/folders/1XtMZMNW3CRmzvpEVYj29iaUgDFcPUroe?usp=drive_link). Put them in ```./data```. Also, you can download original LLaMA at [here](https://github.com/facebookresearch/llama/tree/llama_v1), and put the checkpoint in ```./pretrained```. 
+You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQA) at [here](https://drive.google.com/drive/folders/1xEbnJlpsJ1AeLsD8mCchMafAs7ToNUdI). Put them in ```./data```. Also, you can download original LLaMA at [here](https://github.com/facebookresearch/llama/tree/llama_v1), and put the checkpoint in ```./pretrained```. 
 
 ```
 ./pretrained
@@ -96,7 +96,7 @@ torchrun --rdzv_endpoint 127.0.0.1:1234 --nproc_per_node 8 train.py --model 7B \
 --blr 7e-2 --weight_decay 0.02 --output_dir ./checkpoint/tvqa --dataset tvqa --accum_iter 4 --sub --vaq --qav
 ```
 
-We also provide fine-tuned checkpoints on each dataset at [here](https://drive.google.com/drive/folders/1XtMZMNW3CRmzvpEVYj29iaUgDFcPUroe?usp=drive_link).
+We also provide fine-tuned checkpoints on each dataset at [here](https://drive.google.com/drive/folders/1xEbnJlpsJ1AeLsD8mCchMafAs7ToNUdI).
 
 ## Evaluation
 From the training command, simply replace ```train.py``` to ```eval.py``` and add ```--resume ./your/checkpoint.pth```.
