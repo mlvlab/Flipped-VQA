@@ -18,7 +18,6 @@ To install requirements, run:
 git clone https://github.com/mlvlab/Flipped-VQA.git
 cd Flipped-VQA
 mkdir pretrained
-mkdir data
 conda create -n flipped-vqa python=3.8
 conda activate flipped-vqa
 sh setup.sh
@@ -26,7 +25,17 @@ sh setup.sh
 
 ## Dataset & LLaMA Preparation
 
-You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQA) at [here](https://drive.google.com/drive/folders/1xEbnJlpsJ1AeLsD8mCchMafAs7ToNUdI). Put them in ```./data```. Also, you can download original LLaMA at [here](https://github.com/facebookresearch/llama/tree/llama_v1), and put the checkpoint in ```./pretrained```. 
+* You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQA) in [huggingface](https://huggingface.co/datasets/ikodoh/Flipped-VQA-Data). We also provide the fine-tuned model on each dataset.
+
+```
+git lfs install
+git clone https://huggingface.co/datasets/ikodoh/Flipped-VQA-Data
+mv ./Flipped-VQA-Data/data ../
+mv ./Flipped-VQA-Data/checkpoint ../
+rm -r Flipped-VQA-Data
+```
+
+* You can download original LLaMA at [here](https://github.com/facebookresearch/llama/tree/llama_v1), and put the checkpoint in ```./pretrained```.
 
 ```
 ./pretrained
@@ -39,19 +48,6 @@ You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQ
        |─ 33B
        |   :
        └─ tokenizer.model
-./data
-   |─ nextqa
-   |   |─ train.csv
-   |   |─ val.csv
-   |   └─ clipvitl14.pth
-   |─ star
-   |   :
-   |─ dramaqa
-   |   :
-   |─ vlep
-   |   :
-   └─ tvqa
-       :
 ```
 
 ## Training LLaMA-VQA (LLaMA + Flipped-VQA)
@@ -96,10 +92,10 @@ torchrun --rdzv_endpoint 127.0.0.1:1234 --nproc_per_node 8 train.py --model 7B \
 --blr 7e-2 --weight_decay 0.02 --output_dir ./checkpoint/tvqa --dataset tvqa --accum_iter 4 --sub --vaq --qav
 ```
 
-We also provide fine-tuned checkpoints on each dataset at [here](https://drive.google.com/drive/folders/1xEbnJlpsJ1AeLsD8mCchMafAs7ToNUdI).
+The fine-tuned checkpoints on each dataset are [here](https://huggingface.co/datasets/ikodoh/Flipped-VQA).
 
 ## Evaluation
-From the training command, simply replace ```train.py``` to ```eval.py``` and add ```--resume ./your/checkpoint.pth```.
+From the training command, simply replace ```train.py``` with ```eval.py``` and add ```--resume ./your/checkpoint.pth```.
 
 ## Acknowledgements
 
