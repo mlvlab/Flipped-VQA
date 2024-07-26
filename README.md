@@ -30,9 +30,10 @@ sh setup.sh
 ```
 git lfs install
 git clone https://huggingface.co/datasets/ikodoh/Flipped-VQA-Data
-mv ./Flipped-VQA-Data/data ../
-mv ./Flipped-VQA-Data/checkpoint ../
-rm -r Flipped-VQA-Data
+mv ./Flipped-VQA-Data/data ./
+mv ./Flipped-VQA-Data/checkpoint ./
+unzip ./data/tvqa/tvqa_subtitles.zip -d ./data/tvqa
+rm -rf Flipped-VQA-Data ./data/tvqa/tvqa_subtitles.zip
 ```
 
 * You can download original LLaMA at [here](https://github.com/facebookresearch/llama/tree/llama_v1), and put the checkpoint in ```./pretrained```.
