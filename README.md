@@ -25,7 +25,7 @@ sh setup.sh
 
 ## Dataset & LLaMA Preparation
 
-* You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQA) in [huggingface](https://huggingface.co/datasets/ikodoh/Flipped-VQA-Data). We also provide the fine-tuned model on each dataset.
+* You can download our preprocessed datasets (NExT-QA, STAR, DramaQA, VLEP and TVQA) in [huggingface](https://huggingface.co/datasets/ikodoh/Flipped-VQA-Data) (We also provide the fine-tuned model on each dataset).
 
 ```
 git lfs install
@@ -93,7 +93,7 @@ torchrun --rdzv_endpoint 127.0.0.1:1234 --nproc_per_node 8 train.py --model 7B \
 --blr 7e-2 --weight_decay 0.02 --output_dir ./checkpoint/tvqa --dataset tvqa --accum_iter 4 --sub --vaq --qav
 ```
 
-The fine-tuned checkpoints on each dataset are [here](https://huggingface.co/datasets/ikodoh/Flipped-VQA).
+The fine-tuned checkpoints on each dataset are [here](https://huggingface.co/datasets/ikodoh/Flipped-VQA-Data).
 
 ## Evaluation
 From the training command, simply replace ```train.py``` with ```eval.py``` and add ```--resume ./your/checkpoint.pth```.
